@@ -39,11 +39,7 @@ public class TaskServiceImpl implements TaskService {
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
 
-        String loggedInUserEmail = SecurityContextHolder
-                .getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(loggedInUserEmail)
-                .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
+        User user = getCurrentUser();
 
         task.setUser(user);
 
@@ -53,26 +49,20 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskResponse> findAllTasks() {
-        String loggedInUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(loggedInUserEmail)
-                .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
+        User user = getCurrentUser();
 
         List<Task> allTask = taskRepository.findByUserId(user.getId());
 
         return allTask.stream()
                 .map((task) -> mapToResponse(task))
                 .toList();
+
     }
 
     @Override
     public TaskResponse updateTask(Long id, TaskRequest request) {
 
-        String loggedInUserEmail = SecurityContextHolder
-                .getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(loggedInUserEmail)
-                .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
+        User user = getCurrentUser();
 
         Task currentTask = taskRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
@@ -103,11 +93,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void deleteTask(Long id) {
-        String loggedInUserEmail = SecurityContextHolder
-                .getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(loggedInUserEmail)
-                .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
+        User user = getCurrentUser();
 
         Task currentTask = taskRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
@@ -133,13 +119,17 @@ public class TaskServiceImpl implements TaskService {
                 .build();
     }
 
-    @Override
-    public TaskResponse getTaskById(Long id) {
+    private User getCurrentUser() {
         String loggedInUserEmail = SecurityContextHolder
                 .getContext().getAuthentication().getName();
-
-        User user = userRepository.findByEmail(loggedInUserEmail)
+        return userRepository.findByEmail(loggedInUserEmail)
                 .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
+    }
+
+    @Override
+    public TaskResponse getTaskById(Long id) {
+
+        User user = getCurrentUser();
 
         Task currentTask = taskRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
