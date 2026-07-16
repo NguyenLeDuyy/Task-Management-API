@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.taskmanagement.task_management_api.service.JwtService;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,25 +40,37 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = header.substring(7);
 
         System.out.println(">>> DEBUG TOKEN NHẬN ĐƯỢC: '" + token + "'");
-        String email = jwtService.extractEmail(token);
+        try {
+            String email = jwtService.extractEmail(token);
 
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails user = userDetailsService.loadUserByUsername(email);
+            if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails user = userDetailsService.loadUserByUsername(email);
 
-            if (jwtService.isTokenValid(token) && email.equals(user.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        user, // Người này là ai (đưa toàn bộ UserDetails vào)
-                        null, // Mật khẩu là gì (Để null vì ta đã tin tưởng JWT rồi, không cần check pass nữa)
-                        user.getAuthorities() // Người này có quyền gì (Lấy từ UserDetails ra)
-                );
-                // Ghi chú thêm vào thẻ thông tin của request hiện tại (ví dụ địa chỉ IP của
-                // khách là gì)
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                if (jwtService.isTokenValid(token) && email.equals(user.getUsername())) {
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            user, // Người này là ai (đưa toàn bộ UserDetails vào)
+                            null, // Mật khẩu là gì (Để null vì ta đã tin tưởng JWT rồi, không cần check pass nữa)
+                            user.getAuthorities() // Người này có quyền gì (Lấy từ UserDetails ra)
+                    );
+                    // Ghi chú thêm vào thẻ thông tin của request hiện tại (ví dụ địa chỉ IP của
+                    // khách là gì)
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
+            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Token expired");
+            response.setContentType("application/json");
+            response.getWriter().flush();
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Invalid token");
+            response.setContentType("application/json");
+            response.getWriter().flush();
         }
-        filterChain.doFilter(request, response);
 
     }
 }
