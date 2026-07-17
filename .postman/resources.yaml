@@ -12,3 +12,9 @@ localResources:
   specs:
     - ../postman/specs/Task API Tests.postman_collection.json/Task API
       Tests.postman_collection.json.json
+    - ../postman/specs/Task API Tests.postman_collection/Task API
+      Tests.postman_collection.json
+    - ../postman/specs/Task API Tests.postman_collection-1/Task API
+      Tests.postman_collection-1.json
+    - ../postman/specs/Auth API Tests.postman_collection/Auth API
+      Tests.postman_collection.json

@@ -1,22 +1,7 @@
 $kind: http-request
 name: New Request
 url: http://localhost:8080/api/tasks/1
-method: PUT
-body:
-  type: json
-  content: "{\r
-
-    \    \"title\": \"Học Spring Boot nâng cao\",\r
-
-    \    \"description\": \"Viết Unit Test và Integration Test\",\r
-
-    \    \"status\": \"IN_PROGRESS\",\r
-
-    \    \"priority\": \"MEDIUM\",\r
-
-    \    \"dueDate\": \"2026-07-25\"\r
-
-    }"
+method: DELETE
 auth:
   type: bearer
   credentials:
