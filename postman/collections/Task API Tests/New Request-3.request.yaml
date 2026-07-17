@@ -1,0 +1,24 @@
+$kind: http-request
+name: New Request
+url: http://localhost:8080/api/tasks/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"title\": \"Học Spring Boot nâng cao\",\r
+
+    \    \"description\": \"Viết Unit Test và Integration Test\",\r
+
+    \    \"status\": \"IN_PROGRESS\",\r
+
+    \    \"priority\": \"MEDIUM\",\r
+
+    \    \"dueDate\": \"2026-07-25\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdC5jb20iLCJpYXQiOjE3ODQyNTk2NTcsImV4cCI6MTc4NDM0NjA1N30.MqYpuKTu_wRVDlGnUnq4c-o0xGLk3hVt0h1n6PPcpfQ
+order: 4000
