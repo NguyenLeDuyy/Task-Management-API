@@ -10,6 +10,7 @@ import com.taskmanagement.task_management_api.dto.request.TaskRequest;
 import com.taskmanagement.task_management_api.dto.response.TaskResponse;
 import com.taskmanagement.task_management_api.entity.Task;
 import com.taskmanagement.task_management_api.entity.User;
+import com.taskmanagement.task_management_api.entity.enums.TaskAction;
 import com.taskmanagement.task_management_api.entity.enums.TaskPriority;
 import com.taskmanagement.task_management_api.entity.enums.TaskStatus;
 import com.taskmanagement.task_management_api.repository.TaskRepository;
@@ -64,12 +65,7 @@ public class TaskServiceImpl implements TaskService {
 
         User user = getCurrentUser();
 
-        Task currentTask = taskRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
-
-        if (!user.getId().equals(currentTask.getUser().getId())) {
-            throw new BadRequestException("Bạn không có quyền chỉnh task này!");
-        }
+        Task currentTask = getTaskAndCheckOwnership(id, user, TaskAction.UPDATE);
 
         if (request.getTitle() != null) {
             currentTask.setTitle(request.getTitle());
@@ -95,12 +91,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteTask(Long id) {
         User user = getCurrentUser();
 
-        Task currentTask = taskRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
-
-        if (!user.getId().equals(currentTask.getUser().getId())) {
-            throw new BadRequestException("Bạn không có quyền xóa task này!");
-        }
+        Task currentTask = getTaskAndCheckOwnership(id, user, TaskAction.DELETE);
 
         taskRepository.delete(currentTask);
     }
@@ -126,17 +117,27 @@ public class TaskServiceImpl implements TaskService {
                 .orElseThrow(() -> new BadRequestException("User không tồn tại hoặc phiên bản đăng nhập hết hạn!"));
     }
 
+    private Task getTaskAndCheckOwnership(Long id, User user, TaskAction action) {
+        Task currentTask = taskRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
+
+        if (!user.getId().equals(currentTask.getUser().getId())) {
+            String message = switch (action) {
+                case GET -> "Bạn không có quyền truy xuất task này!";
+                case UPDATE -> "Bạn không có quyền chỉnh task này!";
+                case DELETE -> "Bạn không có quyền xóa task này!";
+            };
+            throw new BadRequestException(message);
+        }
+        return currentTask;
+    }
+
     @Override
     public TaskResponse getTaskById(Long id) {
 
         User user = getCurrentUser();
 
-        Task currentTask = taskRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Task không tồn tại!"));
-
-        if (!user.getId().equals(currentTask.getUser().getId())) {
-            throw new BadRequestException("Bạn không có quyền truy xuất task này!");
-        }
+        Task currentTask = getTaskAndCheckOwnership(id, user, TaskAction.GET);
 
         return mapToResponse(currentTask);
     }
