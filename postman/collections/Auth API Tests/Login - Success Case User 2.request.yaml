@@ -1,11 +1,12 @@
 $kind: http-request
+name: Login - Success Case User 2
 url: http://localhost:8080/api/auth/login
 method: POST
 body:
   type: json
   content: "{\r
 
-    \  \"email\": \"duy@test.com\",\r
+    \  \"email\": \"duy@test1.com\",\r
 
     \  \"password\": \"123456\"\r
 

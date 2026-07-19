@@ -1,4 +1,9 @@
 $kind: http-request
-url: ""
+name: Get A Task Of Another User
+url: http://localhost:8080/api/tasks/9999
 method: GET
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdDEuY29tIiwiaWF0IjoxNzg0MzY2Njc2LCJleHAiOjE3ODQ0NTMwNzZ9.A8mXK4PAxmhquYBTj-ranzi0VT65_8JJVkTfkPjQoK0
 order: 3801344666239720
