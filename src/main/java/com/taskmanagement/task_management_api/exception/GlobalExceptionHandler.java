@@ -28,4 +28,28 @@ public class GlobalExceptionHandler {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setMessage(e.getMessage());
+        response.setStatus(HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    ResponseEntity<ErrorResponse> handleForbidden(ForbiddenException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setMessage(e.getMessage());
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    ResponseEntity<ErrorResponse> handleUnauthorized(UnauthorizedException e) {
+        ErrorResponse response = new ErrorResponse();
+        response.setMessage(e.getMessage());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
 }
