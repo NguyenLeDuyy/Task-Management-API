@@ -1,4 +1,5 @@
 $kind: http-request
+name: Create Task
 url: http://localhost:8080/api/tasks
 method: POST
 body:
@@ -9,15 +10,11 @@ body:
 
     \    \"description\": \"Hoàn thành phần JWT và CRUD cho Task\",\r
 
-    \    \"status\": \"TODO\",     \r
-
-    \    \"priority\": \"HIGH\",   \r
-
     \    \"dueDate\": \"2026-07-20\"\r
 
     }"
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdC5jb20iLCJpYXQiOjE3ODQyNTk2NTcsImV4cCI6MTc4NDM0NjA1N30.MqYpuKTu_wRVDlGnUnq4c-o0xGLk3hVt0h1n6PPcpfQ
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdDEuY29tIiwiaWF0IjoxNzg0NTE3MzE4LCJleHAiOjE3ODQ2MDM3MTh9.G1OG_42VIVdIrXhRFIfxxPPygVMbz9L238oDN8tJ2bc
 order: 1000

@@ -8,7 +8,8 @@ import com.taskmanagement.task_management_api.exception.UnauthorizedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.taskmanagement.task_management_api.dto.request.TaskRequest;
+import com.taskmanagement.task_management_api.dto.request.TaskCreateRequest;
+import com.taskmanagement.task_management_api.dto.request.TaskUpdateRequest;
 import com.taskmanagement.task_management_api.dto.response.TaskResponse;
 import com.taskmanagement.task_management_api.entity.Task;
 import com.taskmanagement.task_management_api.entity.User;
@@ -29,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
     private final UserRepository userRepository;
 
     @Override
-    public TaskResponse createTask(TaskRequest request) {
+    public TaskResponse createTask(TaskCreateRequest request) {
         Task task = new Task();
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
@@ -62,27 +63,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse updateTask(Long id, TaskRequest request) {
+    public TaskResponse updateTask(Long id, TaskUpdateRequest request) {
 
         User user = getCurrentUser();
 
         Task currentTask = getTaskAndCheckOwnership(id, user);
 
-        if (request.getTitle() != null) {
-            currentTask.setTitle(request.getTitle());
-        }
-        if (request.getDescription() != null) {
-            currentTask.setDescription(request.getDescription());
-        }
-        if (request.getStatus() != null) {
-            currentTask.setStatus(request.getStatus());
-        }
-        if (request.getPriority() != null) {
-            currentTask.setPriority(request.getPriority());
-        }
-        if (request.getDueDate() != null) {
-            currentTask.setDueDate(request.getDueDate());
-        }
+        currentTask.setTitle(request.getTitle());
+        currentTask.setDescription(request.getDescription());
+        currentTask.setStatus(request.getStatus());
+        currentTask.setPriority(request.getPriority());
+        currentTask.setDueDate(request.getDueDate());
         currentTask.setUpdatedAt(LocalDateTime.now());
 
         return mapToResponse(taskRepository.save(currentTask));

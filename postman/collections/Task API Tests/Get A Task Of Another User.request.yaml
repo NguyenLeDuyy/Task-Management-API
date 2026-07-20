@@ -1,6 +1,6 @@
 $kind: http-request
 name: Get A Task Of Another User
-url: http://localhost:8080/api/tasks/9999
+url: http://localhost:8080/api/tasks/2
 method: GET
 auth:
   type: bearer

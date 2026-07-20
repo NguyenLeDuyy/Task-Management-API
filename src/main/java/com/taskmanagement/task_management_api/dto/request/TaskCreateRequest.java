@@ -6,23 +6,18 @@ import com.taskmanagement.task_management_api.entity.enums.TaskPriority;
 import com.taskmanagement.task_management_api.entity.enums.TaskStatus;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class TaskRequest {
-
-    private Long id;
+public class TaskCreateRequest {
 
     @NotBlank(message = "Title is required")
     private String title;
 
     private String description;
 
-    @NotNull(message = "Status is required")
     private TaskStatus status;
 
-    @NotNull(message = "Priority is required")
     private TaskPriority priority;
 
     private LocalDate dueDate;
