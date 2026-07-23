@@ -45,7 +45,6 @@ public class Task {
     @Column(nullable = false)
     private TaskPriority priority;
 
-    @Column(nullable = false)
     private LocalDate dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)

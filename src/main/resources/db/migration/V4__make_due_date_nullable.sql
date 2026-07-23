@@ -1,0 +1,2 @@
+ALTER TABLE tasks
+    ALTER due_date DROP NOT NULL
