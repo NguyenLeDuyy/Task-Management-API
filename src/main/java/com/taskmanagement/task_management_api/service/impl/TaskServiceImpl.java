@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import com.taskmanagement.task_management_api.exception.ResourceNotFoundException;
 import com.taskmanagement.task_management_api.exception.UnauthorizedException;
+import com.taskmanagement.task_management_api.mapper.TaskMapper;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,8 @@ public class TaskServiceImpl implements TaskService {
 
     private final UserRepository userRepository;
 
+    private final TaskMapper taskMapper;
+
     @Override
     public TaskResponse createTask(TaskCreateRequest request) {
         Task task = new Task();
@@ -47,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
         task.setUser(user);
 
         Task saveTask = taskRepository.save(task);
-        return mapToResponse(saveTask);
+        return taskMapper.toResponse(saveTask);
     }
 
     @Override
@@ -57,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
         List<Task> allTask = taskRepository.findByUserId(user.getId());
 
         return allTask.stream()
-                .map((task) -> mapToResponse(task))
+                .map(taskMapper::toResponse)
                 .toList();
 
     }
@@ -76,7 +79,7 @@ public class TaskServiceImpl implements TaskService {
         currentTask.setDueDate(request.getDueDate());
         currentTask.setUpdatedAt(LocalDateTime.now());
 
-        return mapToResponse(taskRepository.save(currentTask));
+        return taskMapper.toResponse(taskRepository.save(currentTask));
     }
 
     @Override
@@ -86,20 +89,6 @@ public class TaskServiceImpl implements TaskService {
         Task currentTask = getTaskAndCheckOwnership(id, user);
 
         taskRepository.delete(currentTask);
-    }
-
-    private TaskResponse mapToResponse(Task task) {
-        return TaskResponse.builder()
-                .id(task.getId())
-                .title(task.getTitle())
-                .description(task.getDescription())
-                .status(task.getStatus())
-                .priority(task.getPriority())
-                .dueDate(task.getDueDate())
-                .userId(task.getUser().getId())
-                .createdAt(task.getCreatedAt())
-                .updatedAt(task.getUpdatedAt())
-                .build();
     }
 
     private User getCurrentUser() {
@@ -126,7 +115,7 @@ public class TaskServiceImpl implements TaskService {
 
         Task currentTask = getTaskAndCheckOwnership(id, user);
 
-        return mapToResponse(currentTask);
+        return taskMapper.toResponse(currentTask);
     }
 
 }
