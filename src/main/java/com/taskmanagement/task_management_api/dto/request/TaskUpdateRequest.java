@@ -1,6 +1,7 @@
 package com.taskmanagement.task_management_api.dto.request;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.taskmanagement.task_management_api.entity.enums.TaskPriority;
 import com.taskmanagement.task_management_api.entity.enums.TaskStatus;
@@ -22,6 +23,8 @@ public class TaskUpdateRequest {
 
     @NotNull(message = "Priority is required")
     private TaskPriority priority;
+
+    private List<Long> tagIds;
 
     private LocalDate dueDate;
 }

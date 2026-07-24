@@ -10,7 +10,11 @@ body:
 
     \    \"description\": \"Viết Unit Test và Integration Test\",\r
 
+    \    \"status\": \"IN_PROGRESS\",\r
+
     \    \"priority\": \"MEDIUM\",\r
+
+    \    // \"tagIds\": [1,2],\r
 
     \    \"dueDate\": null\r
 
@@ -18,5 +22,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdDEuY29tIiwiaWF0IjoxNzg0NTE3MzE4LCJleHAiOjE3ODQ2MDM3MTh9.G1OG_42VIVdIrXhRFIfxxPPygVMbz9L238oDN8tJ2bc
+    token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkdXlAdGVzdDEuY29tIiwiaWF0IjoxNzg0ODc1NzIwLCJleHAiOjE3ODQ5NjIxMjB9.Xturj5yVKALjM-g5CxPDtck9X8_uoooz_AXfcy_XG_A
 order: 4000
