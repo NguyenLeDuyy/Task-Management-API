@@ -2,6 +2,7 @@ package com.taskmanagement.task_management_api.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.taskmanagement.task_management_api.entity.enums.TaskPriority;
 import com.taskmanagement.task_management_api.entity.enums.TaskStatus;
@@ -22,7 +23,8 @@ public class TaskResponse {
     private TaskStatus status;
     private TaskPriority priority;
     private LocalDate dueDate;
-    private Long userId; // Chỉ trả về ID của User sở hữu task để bảo mật thông tin
+    private Long userId;
+    private List<TagResponse> tags;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
