@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/tags"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: "{\r
+
+    \    \"tagName\": \"Học Tập\"\r
+
+    }"
+order: 1000

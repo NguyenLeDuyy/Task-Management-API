@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/tags/1"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+body:
+  type: text
+  content: "{\r
+
+    \    \"tagName\": \"Giải Trí\"\r
+
+    }"
+order: 4000

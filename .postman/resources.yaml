@@ -7,6 +7,7 @@ workspace:
 cloudResources:
   collections:
     ../postman/collections/Auth API Tests: 6bed1e52-b797-41db-9bff-86abae09ecd3
+    ../postman/collections/Tag API: 4c22cd32-0b57-4d47-90e9-dd82c65ba0f3
 
 localResources:
   specs:

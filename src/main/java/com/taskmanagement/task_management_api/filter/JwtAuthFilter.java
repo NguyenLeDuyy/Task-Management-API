@@ -39,7 +39,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String token = header.substring(7);
 
-        System.out.println(">>> DEBUG TOKEN NHẬN ĐƯỢC: '" + token + "'");
         try {
             String email = jwtService.extractEmail(token);
 

@@ -1,0 +1,5 @@
+$kind: collection
+description: CRUD API for Tags
+variables:
+  baseUrl: http://localhost:8080
+  token: YOUR_JWT_TOKEN_HERE
