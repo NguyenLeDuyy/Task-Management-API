@@ -3,8 +3,9 @@
 A RESTful API for task management built with **Java 21** and **Spring Boot 3.5**. It provides JWT-based authentication with refresh-token rotation and server-side revocation, Spring Security authorization, a Many-to-Many Task–Tag model, MapStruct entity–DTO mapping, Flyway migrations, and unit tests with JUnit 5 + Mockito.
 
 <!-- After deploying, fill these in: -->
-**Live demo:** https://YOUR-APP.up.railway.app
-**Interactive API docs (Swagger UI):** https://YOUR-APP.up.railway.app/swagger-ui/index.html
+**Live demo:** https://task-management-api-wtq5.onrender.com
+**Interactive API docs (Swagger UI):** https://task-management-api-wtq5.onrender.com/swagger-ui/index.html
+*(Note: First request may take ~50s due to Render free tier cold start)*
 
 ## Tech Stack
 
