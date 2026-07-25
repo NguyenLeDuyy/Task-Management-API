@@ -53,14 +53,14 @@ public class TaskServiceImpl implements TaskService {
         task.setPriority(request.getPriority() != null ? request.getPriority() : TaskPriority.MEDIUM);
 
         task.setDueDate(request.getDueDate());
-        task.setTags(validateAndGetTags(request.getTagIds()));
 
         task.setCreatedAt(LocalDateTime.now());
         task.setUpdatedAt(LocalDateTime.now());
 
         User user = getCurrentUser();
-
         task.setUser(user);
+
+        task.setTags(validateAndGetTags(request.getTagIds(), user.getId()));
 
         Task saveTask = taskRepository.save(task);
         return taskMapper.toResponse(saveTask);
@@ -89,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
         currentTask.setDescription(request.getDescription());
         currentTask.setStatus(request.getStatus());
         currentTask.setPriority(request.getPriority());
-        currentTask.setTags(validateAndGetTags(request.getTagIds()));
+        currentTask.setTags(validateAndGetTags(request.getTagIds(), user.getId()));
         currentTask.setDueDate(request.getDueDate());
         currentTask.setUpdatedAt(LocalDateTime.now());
 
@@ -122,10 +122,10 @@ public class TaskServiceImpl implements TaskService {
         return currentTask;
     }
 
-    private List<Tag> validateAndGetTags(List<Long> tagIds) {
+    private List<Tag> validateAndGetTags(List<Long> tagIds, Long ownerId) {
         List<Tag> tagToSave = new ArrayList<>();
         if (tagIds != null && !tagIds.isEmpty()) {
-            tagToSave = tagRepository.findAllById(tagIds);
+            tagToSave = tagRepository.findByIdInAndUser_Id(tagIds, ownerId);
             Set<Tag> dbTags = new HashSet<>(tagToSave);
 
             Set<Long> idDbTags = dbTags.stream().map(e -> e.getId()).collect(Collectors.toSet());
